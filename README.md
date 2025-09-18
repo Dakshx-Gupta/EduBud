@@ -1,2 +1,2 @@
 # EduBud
-AI
+AI-powered Student Retention & Counseling Assistant
