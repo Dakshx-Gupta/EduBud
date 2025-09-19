@@ -15,7 +15,7 @@ def main_page():
     
     #taking user file input and storing in a dataframe
     files = sl.file_uploader("Upload student data spreadsheets", accept_multiple_files=True,
-                              type=None, width="stretch")
+                              type=None)
     
     if len(files) == 3:
         df1 = polars.read_csv(files[0]).with_columns(polars.col("Roll no").cast(polars.Int64, strict=False))
