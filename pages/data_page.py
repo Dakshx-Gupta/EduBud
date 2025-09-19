@@ -1,5 +1,6 @@
 import streamlit as sl
-import polars 
+import polars
+from polars import*
 import pandas as pd
 from streamlit_lottie import st_lottie
 import requests
