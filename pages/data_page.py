@@ -1,8 +1,9 @@
 import streamlit as sl
-import polars as pl
+import polars 
 import pandas as pd
 from streamlit_lottie import st_lottie
 import requests
+import smtplib
 from google import genai
 
 def data_page():
@@ -15,11 +16,11 @@ def data_page():
     animation_json = response.json()
     st_lottie(animation_json, height=300, key="lottie1")
 
-    df = pl.read_csv(r"C:\Users\tempe\OneDrive\Documents\EduBud\EduBud\merged.csv")
+    df = polars.read_csv(r"C:\Users\tempe\OneDrive\Documents\EduBud\EduBud\merged.csv")
     df = df.with_columns(
-        pl.when((pl.col("Attendance") < 75) | (pl.col("Marks (out of 35)") < 12) | (pl.col("Fees") == 0))
-         .then(pl.lit("At Risk"))
-         .otherwise(pl.lit("Safe"))
+        polars.when((polars.col("Attendance") < 75) | (polars.col("Marks (out of 35)") < 12) | (polars.col("Fees") == 0))
+         .then(polars.lit("At Risk"))
+         .otherwise(polars.lit("Safe"))
          .alias("Status")
     )
     pd_df = df.to_pandas()
@@ -30,6 +31,8 @@ def data_page():
     styled_df = pd_df.style.apply(highlight_risk, axis=1)
     sl.subheader("Student Data")
     sl.dataframe(styled_df, use_container_width=True, height=400)
+
+    tab1 ,tab2, tab3 = sl.tabs([])
 
     sl.button("Send student to my mail", on_click="mailto:temestgaming49@gmail.com")
     sl.markdown("---")

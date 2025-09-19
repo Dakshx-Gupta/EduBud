@@ -1,5 +1,5 @@
 import streamlit as sl
-import polars as pl 
+import polars  
 import requests
 from streamlit_lottie import st_lottie
 
@@ -18,9 +18,9 @@ def main_page():
                               type=None, width="stretch")
     
     if len(files) == 3:
-        df1 = pl.read_csv(files[0]).with_columns(pl.col("Roll no").cast(pl.Int64, strict=False))
-        df2 = pl.read_csv(files[1]).with_columns(pl.col("Roll no").cast(pl.Int64, strict=False))
-        df3 = pl.read_csv(files[2]).with_columns(pl.col("Roll no").cast(pl.Int64, strict=False))
+        df1 = polars.read_csv(files[0]).with_columns(polars.col("Roll no").cast(polars.Int64, strict=False))
+        df2 = polars.read_csv(files[1]).with_columns(polars.col("Roll no").cast(polars.Int64, strict=False))
+        df3 = polars.read_csv(files[2]).with_columns(polars.col("Roll no").cast(polars.Int64, strict=False))
         df2 = df2.drop(["Name","Branch"])
         df3 = df3.drop(["Name", "Branch"])
         merged_df = (df1.join(df2, on="Roll no", how="inner").join(df3, on="Roll no", how="inner"))
