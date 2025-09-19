@@ -1,8 +1,7 @@
-pandas
-streamlit
-polars
-pandas
+streamlit==1.30.0
+polars==0.20.30   # latest version with prebuilt wheels
+pandas==2.2.2     # works with Python 3.13
 requests
-streamlit-lottie
+streamlit-lottie==0.0.5
 matplotlib
-genai
+google-generativeai
