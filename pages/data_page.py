@@ -33,8 +33,6 @@ def data_page():
     sl.subheader("Student Data")
     sl.dataframe(styled_df, use_container_width=True, height=400)
 
-    tab1 ,tab2, tab3 = sl.tabs([])
-
     sl.button("Send student to my mail", on_click="mailto:temestgaming49@gmail.com")
     sl.markdown("---")
     sl.header("Talk To EduBud", width = "stretch")
