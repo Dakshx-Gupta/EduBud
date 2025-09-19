@@ -1,5 +1,7 @@
-streamlit
-polars
-requests
-streamlit-lottie
-genai
+streamlit==1.30.0
+polars==0.18.14
+pandas==2.1.1
+requests==2.31.0
+streamlit-lottie==0.0.6
+matplotlib==3.8.0
+genai==0.6.4
