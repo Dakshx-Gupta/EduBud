@@ -1,5 +1,6 @@
 import streamlit as sl
 import polars as pl
+import pandas as pd
 from streamlit_lottie import st_lottie
 import requests
 from google import genai
@@ -9,12 +10,30 @@ def data_page():
     #setting up the page
     sl.set_page_config(page_title = "EduBud: Data", page_icon = 
                        r"C:\Users\tempe\OneDrive\Documents\EduBud\EduBud\Code ON.png")
-    url = "https://lottie.host/53587c86-e5ba-45b2-bed3-5aeb93a73da5/uBfVjhmifJ.json"
+    url = "https://lottie.host/bc577d26-154f-4351-a258-10f73bc918f3/LZXZK5Ce1x.json"
     response = requests.get(url)
     animation_json = response.json()
     st_lottie(animation_json, height=300, key="lottie1")
 
-    
+    df = pl.read_csv(r"C:\Users\tempe\OneDrive\Documents\EduBud\EduBud\merged.csv")
+    df = df.with_columns(
+        pl.when((pl.col("Attendance") < 75) | (pl.col("Marks (out of 35)") < 12) | (pl.col("Fees") == 0))
+         .then(pl.lit("At Risk"))
+         .otherwise(pl.lit("Safe"))
+         .alias("Status")
+    )
+    pd_df = df.to_pandas()
+
+    def highlight_risk(row):
+        return ['background-color: #ff4d4d'] * len(row) if row["Status"] == "At Risk" else [''] * len(row)
+
+    styled_df = pd_df.style.apply(highlight_risk, axis=1)
+    sl.subheader("Student Data")
+    sl.dataframe(styled_df, use_container_width=True, height=400)
+
+    sl.button("Send student to my mail", on_click="mailto:temestgaming49@gmail.com")
+    sl.markdown("---")
+    sl.header("Talk To EduBud", width = "stretch")
 
     if "messages" not in sl.session_state:
         sl.session_state.messages = [
@@ -33,25 +52,28 @@ def data_page():
             sl.markdown(msg["content"])
             
     # user input
-    if user_input := sl.chat_input("Ask AER about air pollution solutions..."):
+    if user_input := sl.chat_input("Ask EduBud for guidance on how to reduce these students risk"):
         # Store user message
         sl.session_state.messages.append({"role": "user", "content": user_input})
         with sl.chat_message("user"):
             sl.markdown(user_input)
+            prompt = "\n".join([f"{msg['role']}: {msg['content']}" for msg in sl.session_state.messages])
+
         
         # Get AI response
         with sl.chat_message("assistant"):
             with sl.spinner("Thinking..."):
-                response = client.chat_completion(
+                response = client.models.generate_content(
                 model="gemini-2.5-flash", 
-                messages=sl.session_state.messages,
-                max_tokens=500,
+                contents=prompt
             )
-            bot_reply = response.choices[0].message["content"]
-            sl.markdown(bot_reply)
+            assistant_reply = response.text
+            sl.markdown(assistant_reply)
             # Store AI reply
-            sl.session_state.messages.append({"role": "assistant", "content": bot_reply})
+            sl.session_state.messages.append({"role": "assistant", "content": assistant_reply})
 
 Gemini_api = sl.secrets["gemini_api"]
 client = genai.Client(api_key = Gemini_api)
 model_id = "gemini-2.5-flash"
+
+data_page()

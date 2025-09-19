@@ -18,8 +18,14 @@ def main_page():
     files = sl.file_uploader("Upload student data spreadsheets", accept_multiple_files=True,
                               type=None, width="stretch")
     
-    
     if len(files) == 3:
-        sl.switch_page(r"C:\Users\tempe\OneDrive\Documents\EduBud\EduBud\pages\data_page.py")
+        df1 = pl.read_csv(files[0]).with_columns(pl.col("Roll no").cast(pl.Int64, strict=False))
+        df2 = pl.read_csv(files[1]).with_columns(pl.col("Roll no").cast(pl.Int64, strict=False))
+        df3 = pl.read_csv(files[2]).with_columns(pl.col("Roll no").cast(pl.Int64, strict=False))
+        df2 = df2.drop(["Name","Branch"])
+        df3 = df3.drop(["Name", "Branch"])
+        merged_df = (df1.join(df2, on="Roll no", how="inner").join(df3, on="Roll no", how="inner"))
+        merged_df.write_csv(r"C:\Users\tempe\OneDrive\Documents\EduBud\EduBud\merged.csv")
+        sl.switch_page("pages/data_page.py")
 
 main_page()
