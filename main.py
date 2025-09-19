@@ -1,6 +1,5 @@
 import streamlit as sl
-import polars as pl
-from google import genai 
+import polars as pl 
 import requests
 from streamlit_lottie import st_lottie
 
