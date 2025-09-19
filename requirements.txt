@@ -1,5 +1,5 @@
 streamlit
-polars
+polars==0.18.14
 requests
 streamlit-lottie
 matplotlib
