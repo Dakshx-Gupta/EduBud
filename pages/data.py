@@ -30,7 +30,7 @@ def data_page():
     )
     pd_df = df.to_pandas()  # for Streamlit
 
-    tab1, tab2, tab3, tab4 = sl.tabs(["📊 Dashboard", "🔍 Student Search", "📈 Insights", "🤖 Edubud AI"])
+    tab1, tab2, tab3, tab4 = sl.tabs(["📊 Dashboard", "🔍 Student Search", "📈 Insights", "Edubud AI"])
 
     with tab1:
         sl.subheader("Student Data")
