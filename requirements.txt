@@ -4,4 +4,3 @@ requests
 streamlit-lottie==0.0.5
 matplotlib
 google-genai
-st-pages>=0.4.7

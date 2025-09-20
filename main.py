@@ -2,16 +2,12 @@ import streamlit as sl
 import polars
 import requests
 from streamlit_lottie import st_lottie
-from st_pages import add_page_title, get_nav_from_toml
 
 def main_page():
     #setting up the page
     sl.set_page_config(page_title = "EduBud", page_icon = 
                        r"C:\Users\tempe\OneDrive\Documents\EduBud\EduBud\Code ON.png")
-    nav = get_nav_from_toml(".streamlit/pages.toml")
-    pg = sl.navigation(nav)
-    add_page_title(pg)
-    
+
     url = "https://lottie.host/15d5fc02-08b4-47ce-b53b-6b18a15787cb/fNZ1Eito8c.json"
     response = requests.get(url)
     animation_json = response.json()
