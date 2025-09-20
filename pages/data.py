@@ -17,7 +17,7 @@ def data_page():
     animation_json = response.json()
     st_lottie(animation_json, height=300, key="lottie1")
 
-    df = polars.read_csv(r"C:\Users\tempe\OneDrive\Documents\EduBud\EduBud\merged.csv")
+    df = polars.read_csv(r"C:/Users/tempe/OneDrive/Documents/EduBud/EduBud/merged.csv")
     df = df.with_columns(
         polars.when(
             (polars.col("Attendance") < 75) | 
