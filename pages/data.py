@@ -32,7 +32,6 @@ def data_page():
 
     tab1, tab2, tab3, tab4 = sl.tabs(["📊 Dashboard", "🔍 Student Search", "📈 Insights", "🤖 Edubud AI"])
 
-
     with tab1:
         sl.subheader("Student Data")
 
