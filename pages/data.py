@@ -30,7 +30,8 @@ def data_page():
     )
     pd_df = df.to_pandas()  # for Streamlit
 
-    tab1, tab2, tab3, tab4 = sl.tabs(["📊 Dashboard", "🔍 Student Search", "📈 Insights", "Edubud AI"])
+    tab1, tab2, tab3 = sl.tabs(["📊 Dashboard", "🔍 Student Search", "📈 Insights"])
+
 
     with tab1:
         sl.subheader("Student Data")
@@ -42,7 +43,7 @@ def data_page():
         sl.dataframe(styled_df, use_container_width=True, hide_index=True)
         csv_data = df.write_csv()
 
-        sl.download_button("📩 Download data", data = csv_data, file_name="merged.csv")
+        sl.download_button("📩Download data", data = csv_data, file_name="merged.csv")
 
     with tab2:
         sl.subheader("Search Student by Roll No")
@@ -84,41 +85,41 @@ def data_page():
         branch_counts = pd_df.groupby(["Branch", "Status"]).size().unstack(fill_value=0)
         sl.bar_chart(branch_counts)
 
-    # sl.markdown("---")
-    with tab4:
-        sl.header("💬 Talk To EduBud")
-        if "messages" not in sl.session_state:
-            sl.session_state.messages = [
-                {"role": "system", "content":
-                 "You are EduBud, an AI assistant that helps educators detect and support at-risk students."
-                 "Focus only on analyzing student data such as attendance, marks, and fees, and provide concise, factual, and actionable insights."
-                 "Maintain a professional, supportive, and student-first tone at all times."
-                 "Politely refuse questions unrelated to student performance, retention, or counseling, and remind the user of your purpose."
-                 "If asked who created you, reply: 'I was created by Daksh Gupta.'"
-                }
-            ]
-        # Display previous messages
-        for msg in sl.session_state.messages[1:]:
-            # skip system msg
-            with sl.chat_message(msg["role"]):
-                sl.markdown(msg["content"])
+    sl.markdown("---")
+    sl.header("💬 Talk To EduBud")
 
-        # user input
+    if "messages" not in sl.session_state:
+        sl.session_state.messages = [
+            {"role": "system", "content":
+             "You are EduBud, an AI assistant that helps educators detect and support at-risk students."
+             "Focus only on analyzing student data such as attendance, marks, and fees, and provide concise, factual, and actionable insights."
+             "Maintain a professional, supportive, and student-first tone at all times."
+             "Politely refuse questions unrelated to student performance, retention, or counseling, and remind the user of your purpose."
+             "If asked who created you, reply: 'I was created by Daksh Gupta.'"
+            }
+        ]
+
+    # Display previous messages
+    for msg in sl.session_state.messages[1:]:  # skip system msg
+        with sl.chat_message(msg["role"]):
+            sl.markdown(msg["content"])
+
+    # user input
     if user_input := sl.chat_input("Ask EduBud for guidance on how to reduce student risk"):
-            sl.session_state.messages.append({"role": "user", "content": user_input})
-            with sl.chat_message("user"):
-                sl.markdown(user_input)
-                prompt = "\n".join([f"{msg['role']}: {msg['content']}" for msg in sl.session_state.messages])
+        sl.session_state.messages.append({"role": "user", "content": user_input})
+        with sl.chat_message("user"):
+            sl.markdown(user_input)
+            prompt = "\n".join([f"{msg['role']}: {msg['content']}" for msg in sl.session_state.messages])
 
-            with sl.chat_message("assistant"):
-                with sl.spinner("Thinking..."):
-                    response = client.models.generate_content(
-                        model="gemini-2.5-flash", 
-                        contents=prompt
-                    )
-                assistant_reply = response.text
-                sl.markdown(assistant_reply)
-                sl.session_state.messages.append({"role": "assistant", "content": assistant_reply})
+        with sl.chat_message("assistant"):
+            with sl.spinner("Thinking..."):
+                response = client.models.generate_content(
+                    model="gemini-2.5-flash", 
+                    contents=prompt
+                )
+            assistant_reply = response.text
+            sl.markdown(assistant_reply)
+            sl.session_state.messages.append({"role": "assistant", "content": assistant_reply})
 
 Gemini_api = sl.secrets["gemini_api"]
 client = genai.Client(api_key=Gemini_api)
