@@ -3,4 +3,4 @@ polars==0.20.30
 requests
 streamlit-lottie==0.0.5
 matplotlib
-google-generativeai
+google-genai

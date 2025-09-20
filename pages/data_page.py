@@ -3,8 +3,7 @@ import polars
 from streamlit_lottie import st_lottie
 import requests
 import smtplib
-import google.generativeai as genai
-
+from google import genai
 
 def data_page():
 
