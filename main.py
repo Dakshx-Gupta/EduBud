@@ -27,6 +27,6 @@ def main_page():
         df3 = df3.drop(["Name", "Branch"])
         merged_df = (df1.join(df2, on="Roll no", how="inner").join(df3, on="Roll no", how="inner"))
         merged_df.write_csv(r"C:\Users\tempe\OneDrive\Documents\EduBud\EduBud\merged.csv")
-        sl.switch_page("pages\📊Data.py")
+        sl.switch_page("pages\data.py")
 
 main_page()
