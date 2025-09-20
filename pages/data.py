@@ -104,7 +104,7 @@ def data_page():
                 sl.markdown(msg["content"])
 
         # user input
-        if user_input := sl.chat_input("Ask EduBud for guidance on how to reduce student risk"):
+    if user_input := sl.chat_input("Ask EduBud for guidance on how to reduce student risk"):
             sl.session_state.messages.append({"role": "user", "content": user_input})
             with sl.chat_message("user"):
                 sl.markdown(user_input)
