@@ -40,8 +40,9 @@ def data_page():
 
         styled_df = pd_df.style.apply(highlight_risk, axis=1)
         sl.dataframe(styled_df, use_container_width=True, hide_index=True)
+        csv_data = df.write_csv()
 
-        sl.button("📧 Send student data to my mail")
+        sl.download_button("Download data", data = csv_data, file_name="merged.csv", icon=":material/download:")
 
     with tab2:
         sl.subheader("Search Student by Roll No")

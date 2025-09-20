@@ -8,6 +8,8 @@ def main_page():
     sl.set_page_config(page_title = "EduBud", page_icon = 
                        r"C:\Users\tempe\OneDrive\Documents\EduBud\EduBud\Code ON.png")
 
+    sl.title("🏡Home")
+
     url = "https://lottie.host/15d5fc02-08b4-47ce-b53b-6b18a15787cb/fNZ1Eito8c.json"
     response = requests.get(url)
     animation_json = response.json()
@@ -25,6 +27,6 @@ def main_page():
         df3 = df3.drop(["Name", "Branch"])
         merged_df = (df1.join(df2, on="Roll no", how="inner").join(df3, on="Roll no", how="inner"))
         merged_df.write_csv(r"C:\Users\tempe\OneDrive\Documents\EduBud\EduBud\merged.csv")
-        sl.switch_page("pages/data_page.py")
+        sl.switch_page("pages\📊Data.py")
 
 main_page()
