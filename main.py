@@ -2,11 +2,15 @@ import streamlit as sl
 import polars
 import requests
 from streamlit_lottie import st_lottie
+from st_pages import add_page_title, get_nav_from_toml
 
 def main_page():
     #setting up the page
     sl.set_page_config(page_title = "EduBud", page_icon = 
                        r"C:\Users\tempe\OneDrive\Documents\EduBud\EduBud\Code ON.png")
+    nav = get_nav_from_toml(".streamlit/pages.toml")
+    pg = sl.navigation(nav)
+    add_page_title(pg)
     
     url = "https://lottie.host/15d5fc02-08b4-47ce-b53b-6b18a15787cb/fNZ1Eito8c.json"
     response = requests.get(url)
@@ -15,7 +19,7 @@ def main_page():
     
     #taking user file input and storing in a dataframe
     files = sl.file_uploader("Upload student data spreadsheets", accept_multiple_files=True,
-                              type=None)
+                              type=None )
     
     if len(files) == 3:
         df1 = polars.read_csv(files[0]).with_columns(polars.col("Roll no").cast(polars.Int64, strict=False))
