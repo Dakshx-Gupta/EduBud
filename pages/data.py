@@ -9,6 +9,7 @@ def data_page():
 
     sl.set_page_config(page_title="EduBud: Data", 
                        page_icon=r"C:\Users\tempe\OneDrive\Documents\EduBud\EduBud\Code ON.png")
+    sl.title("📊Data")
 
     # Lottie animation
     url = "https://lottie.host/bc577d26-154f-4351-a258-10f73bc918f3/LZXZK5Ce1x.json"
